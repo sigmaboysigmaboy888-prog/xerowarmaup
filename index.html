@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>WhatsApp Warm Up | Account Recovery System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --white: #ffffff;
+            --bg-light: #f8fafd;
+            --bg-card: #ffffff;
+            --blue-light: #e6f0ff;
+            --cyan: #06b6d4;
+            --cyan-dark: #0891b2;
+            --purple: #8b5cf6;
+            --purple-dark: #7c3aed;
+            --gradient-primary: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --gradient-bg: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+            padding: 20px 28px;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(6,182,212,0.25);
+        }
+
+        .logo-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            padding: 8px 20px;
+            background: var(--blue-light);
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--cyan-dark);
+        }
+
+        /* main grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-bottom: 32px;
+        }
+
+        /* cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .card-header p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* input group */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .neon-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-light);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .neon-input:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(6,182,212,0.1);
+        }
+
+        /* mode selector */
+        .mode-selector {
+            display: flex;
+            gap: 14px;
+            margin: 24px 0;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 14px;
+            background: var(--bg-light);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: var(--text-secondary);
+        }
+
+        .mode-btn.active {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 4px 12px rgba(6,182,212,0.3);
+        }
+
+        /* button */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* pairing code display */
+        .code-display {
+            background: var(--bg-light);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .code-number {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: monospace;
+            letter-spacing: 4px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* chart container */
+        .chart-container {
+            margin-top: 20px;
+        }
+
+        .trust-meter {
+            background: var(--bg-light);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .meter-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .meter-bar {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            background: var(--gradient-primary);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            text-align: center;
+            padding: 12px;
+            background: var(--bg-light);
+            border-radius: var(--radius-sm);
+        }
+
+        .status-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--cyan-dark);
+        }
+
+        .status-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* logs */
+        .log-container {
+            background: var(--bg-light);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+
+        .log-line {
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .log-line.success {
+            color: var(--cyan);
+        }
+
+        .log-line.warning {
+            color: var(--purple);
+        }
+
+        @media (max-width: 900px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .container {
+                padding: 20px 16px;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white"/>
+                    <circle cx="12" cy="12" r="3" stroke="white"/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                <h1>WhatsApp Warm Up</h1>
+                <p>Account Recovery & Trust Restoration System</p>
+            </div>
+        </div>
+        <div class="status-badge" id="systemStatus">● System Online</div>
+    </div>
+
+    <div class="grid-2">
+        <!-- Left Panel: Pairing & Warm Up -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Device Pairing</h2>
+                <p>Connect to your WhatsApp account using pairing code</p>
+            </div>
+            <div class="input-group">
+                <label>Target Phone Number</label>
+                <input type="text" id="phoneNumber" class="neon-input" placeholder="+6281234567890">
+            </div>
+            <button class="btn" id="generateCodeBtn">Generate Pairing Code</button>
+            
+            <div id="codeContainer" style="display: none;">
+                <div class="code-display">
+                    <div style="font-size:0.7rem; margin-bottom:8px;">PAIRING CODE</div>
+                    <div class="code-number" id="pairingCode">XXXXXX</div>
+                    <div style="font-size:0.7rem; margin-top:12px;">Open WhatsApp → Settings → Linked Devices → Link with code</div>
+                </div>
+                <div class="input-group" style="margin-top: 8px;">
+                    <label>Confirm Connection</label>
+                    <input type="text" id="confirmCode" class="neon-input" placeholder="Enter pairing code to verify">
+                    <button class="btn" id="verifyConnectionBtn" style="margin-top: 12px;">Verify & Start Warm Up</button>
+                </div>
+            </div>
+
+            <div style="margin-top: 24px;">
+                <div class="card-header" style="padding-bottom: 12px;">
+                    <h2>Warm Up Intensity</h2>
+                    <p>Select activity level for account recovery</p>
+                </div>
+                <div class="mode-selector">
+                    <button class="mode-btn" data-mode="gentle">Gentle</button>
+                    <button class="mode-btn active" data-mode="aggressive">Aggressive</button>
+                    <button class="mode-btn" data-mode="monster">Monster</button>
+                </div>
+                <button class="btn" id="startWarmUpBtn" disabled>Start Warm Up Process</button>
+            </div>
+        </div>
+
+        <!-- Right Panel: Trust Score & Analytics -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Account Trust Analytics</h2>
+                <p>Real-time trust score & restriction status</p>
+            </div>
+            
+            <div class="trust-meter">
+                <div class="meter-label">
+                    <span>Account Trust Score</span>
+                    <span id="trustPercent">0%</span>
+                </div>
+                <div class="meter-bar">
+                    <div class="meter-fill" id="trustFill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-value" id="banRisk">0%</div>
+                    <div class="status-label">Ban Risk</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="restrictionStatus">Unknown</div>
+                    <div class="status-label">Restriction Status</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="activityScore">0</div>
+                    <div class="status-label">Activity Score</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="trustChart" width="400" height="150" style="width:100%; height:150px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Log -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Warm Up Activity Log</h2>
+            <p>Real-time account activity simulation</p>
+        </div>
+        <div class="log-container" id="logContainer">
+            <div class="log-line">● System ready. Enter phone number to begin.</div>
+            <div class="log-line">● Pair your WhatsApp device to start warm up.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // State
+    let currentMode = 'aggressive';
+    let isPaired = false;
+    let pairedNumber = '';
+    let warmUpActive = false;
+    let trustScore = 0;
+    let activityInterval = null;
+    let currentWave = 0;
+    let generatedPairingCode = '';
+    let chart = null;
+
+    // DOM Elements
+    const phoneInput = document.getElementById('phoneNumber');
+    const generateBtn = document.getElementById('generateCodeBtn');
+    const codeContainer = document.getElementById('codeContainer');
+    const pairingCodeDiv = document.getElementById('pairingCode');
+    const confirmCodeInput = document.getElementById('confirmCode');
+    const verifyBtn = document.getElementById('verifyConnectionBtn');
+    const startWarmUpBtn = document.getElementById('startWarmUpBtn');
+    const trustPercentSpan = document.getElementById('trustPercent');
+    const trustFill = document.getElementById('trustFill');
+    const banRiskSpan = document.getElementById('banRisk');
+    const restrictionStatusSpan = document.getElementById('restrictionStatus');
+    const activityScoreSpan = document.getElementById('activityScore');
+    const logContainer = document.getElementById('logContainer');
+
+    // Helper: Add log message
+    function addLog(message, type = 'info') {
+        const logDiv = logContainer;
+        const time = new Date().toLocaleTimeString();
+        const logLine = document.createElement('div');
+        logLine.className = `log-line ${type === 'success' ? 'success' : (type === 'warning' ? 'warning' : '')}`;
+        logLine.innerHTML = `[${time}] ${message}`;
+        logDiv.appendChild(logLine);
+        logDiv.scrollTop = logDiv.scrollHeight;
+        while(logDiv.children.length > 100) logDiv.removeChild(logDiv.firstChild);
+    }
+
+    // Generate random pairing code (6 digit)
+    function generatePairingCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    // Update trust chart
+    function updateChart() {
+        const ctx = document.getElementById('trustChart')?.getContext('2d');
+        if (!ctx) return;
+        
+        // Simulate historical trust data
+        const historicalData = [];
+        const baseTrust = Math.max(0, Math.min(100, trustScore));
+        for (let i = 0; i < 12; i++) {
+            historicalData.push(Math.max(0, Math.min(100, baseTrust - (11 - i) * 3 + Math.random() * 8)));
+        }
+        
+        if (chart) {
+            chart.data.datasets[0].data = historicalData;
+            chart.update();
+        } else {
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['-60m', '-50m', '-40m', '-30m', '-20m', '-10m', 'Now'],
+                    datasets: [{
+                        label: 'Trust Score Trend',
+                        data: historicalData.slice(-7),
+                        borderColor: '#06b6d4',
+                        backgroundColor: 'rgba(6,182,212,0.05)',
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#8b5cf6',
+                        pointBorderColor: 'white',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        y: { min: 0, max: 100, grid: { color: '#e2e8f0' }, title: { display: true, text: 'Trust Score' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+    }
+
+    // Update trust display
+    function updateTrustDisplay() {
+        trustPercentSpan.innerText = `${Math.round(trustScore)}%`;
+        trustFill.style.width = `${trustScore}%`;
+        
+        // Determine ban risk based on trust score
+        let banRisk = 0;
+        let restrictionStatus = '';
+        if (trustScore >= 90) {
+            banRisk = 5;
+            restrictionStatus = 'Clean';
+        } else if (trustScore >= 70) {
+            banRisk = 15;
+            restrictionStatus = 'Low Risk';
+        } else if (trustScore >= 50) {
+            banRisk = 35;
+            restrictionStatus = 'Moderate Risk';
+        } else if (trustScore >= 30) {
+            banRisk = 65;
+            restrictionStatus = 'High Risk';
+        } else {
+            banRisk = 85;
+            restrictionStatus = 'Restricted';
+        }
+        
+        banRiskSpan.innerText = `${banRisk}%`;
+        restrictionStatusSpan.innerText = restrictionStatus;
+        
+        // Update chart
+        updateChart();
+    }
+
+    // Simulate warm up activity
+    async function simulateWarmUpActivity() {
+        if (!warmUpActive) return;
+        
+        const modeConfig = {
+            gentle: { increment: 1.2, delay: 800, maxWaves: 35, baseScore: 2 },
+            aggressive: { increment: 2.5, delay: 450, maxWaves: 50, baseScore: 4 },
+            monster: { increment: 4, delay: 280, maxWaves: 70, baseScore: 6 }
+        };
+        
+        const config = modeConfig[currentMode];
+        currentWave++;
+        
+        // Calculate trust increase
+        let increase = config.baseScore + Math.random() * config.increment;
+        let newTrust = Math.min(100, trustScore + increase);
+        
+        // Additional bonus for monster mode
+        if (currentMode === 'monster' && currentWave % 5 === 0) {
+            increase += 3;
+            addLog(`🔥 BONUS WAVE! Extra trust boost applied`, 'success');
+        }
+        
+        trustScore = Math.min(100, newTrust);
+        
+        // Update activity score
+        const activityScore = Math.min(1000, Math.floor(trustScore * 8.5));
+        activityScoreSpan.innerText = activityScore;
+        
+        updateTrustDisplay();
+        
+        // Log activity
+        const modeName = currentMode === 'gentle' ? 'Gentle' : (currentMode === 'aggressive' ? 'Aggressive' : 'MONSTER');
+        addLog(`Wave ${currentWave} [${modeName}] | Trust +${increase.toFixed(1)}% | Current: ${trustScore.toFixed(1)}%`, 'success');
+        
+        // Check if target reached 90%
+        if (trustScore >= 90 && !window._notified90) {
+            window._notified90 = true;
+            addLog(`🎯 TARGET ACHIEVED! Account trust score reached ${trustScore.toFixed(1)}% - Account is now CLEAN`, 'success');
+            addLog(`✓ Account restriction status: CLEAN | Ban risk: MINIMAL`, 'success');
+            
+            // Stop warm up automatically when target reached
+            if (warmUpActive) {
+                setTimeout(() => {
+                    stopWarmUp();
+                    addLog(`✓ Warm up completed successfully. Account status: OPTIMAL`, 'success');
+                }, 1000);
+            }
+        }
+        
+        // Schedule next activity
+        if (warmUpActive && trustScore < 100) {
+            setTimeout(simulateWarmUpActivity, config.delay);
+        } else if (warmUpActive && trustScore >= 100) {
+            stopWarmUp();
+            addLog(`✓ MAXIMUM TRUST ACHIEVED! Account is fully restored.`, 'success');
+        }
+    }
+
+    function stopWarmUp() {
+        if (activityInterval) {
+            clearTimeout(activityInterval);
+            activityInterval = null;
+        }
+        warmUpActive = false;
+        startWarmUpBtn.disabled = !isPaired;
+        startWarmUpBtn.textContent = 'Start Warm Up Process';
+        addLog(`Warm up process stopped. Final trust score: ${trustScore.toFixed(1)}%`, 'warning');
+    }
+
+    function startWarmUp() {
+        if (!isPaired) {
+            addLog('Please pair your WhatsApp device first.', 'warning');
+            return;
+        }
+        
+        if (warmUpActive) {
+            addLog('Warm up already in progress.', 'warning');
+            return;
+        }
+        
+        if (trustScore >= 90) {
+            addLog('Account already has optimal trust score. No warm up needed.', 'success');
+            return;
+        }
+        
+        warmUpActive = true;
+        currentWave = 0;
+        window._notified90 = false;
+        startWarmUpBtn.disabled = true;
+        startWarmUpBtn.textContent = 'Warming Up...';
+        
+        const modeName = currentMode === 'gentle' ? 'Gentle' : (currentMode === 'aggressive' ? 'Aggressive' : 'MONSTER');
+        addLog(`🚀 Starting ${modeName} mode warm up process...`, 'success');
+        addLog(`Target: Reach 90% trust score. Current: ${trustScore.toFixed(1)}%`, 'info');
+        
+        // Start simulation
+        simulateWarmUpActivity();
+    }
+
+    // Generate pairing code
+    generateBtn.addEventListener('click', () => {
+        const phone = phoneInput.value.trim();
+        if (!phone) {
+            addLog('Please enter phone number first.', 'warning');
+            return;
+        }
+        
+        if (!phone.startsWith('+') || phone.length < 10) {
+            addLog('Invalid phone number format. Use international format: +6281234567890', 'warning');
+            return;
+        }
+        
+        // Generate code
+        generatedPairingCode = generatePairingCode();
+        pairingCodeDiv.innerText = generatedPairingCode;
+        codeContainer.style.display = 'block';
+        confirmCodeInput.value = '';
+        
+        addLog(`Pairing code generated for ${phone}. Enter code to verify connection.`, 'success');
+    });
+    
+    // Verify connection
+    verifyBtn.addEventListener('click', () => {
+        const enteredCode = confirmCodeInput.value.trim();
+        if (!enteredCode) {
+            addLog('Please enter the pairing code to verify.', 'warning');
+            return;
+        }
+        
+        if (enteredCode === generatedPairingCode) {
+            isPaired = true;
+            pairedNumber = phoneInput.value.trim();
+            startWarmUpBtn.disabled = false;
+            addLog(`✓ Device successfully paired with ${pairedNumber}`, 'success');
+            addLog(`Account detected. Analyzing current trust score...`, 'info');
+            
+            // Simulate initial trust score based on phone number hash (realistic simulation)
+            const hash = pairedNumber.split('').reduce((a,b) => a + b.charCodeAt(0), 0);
+            trustScore = Math.min(65, Math.max(15, (hash % 55) + 15));
+            updateTrustDisplay();
+            
+            addLog(`Initial trust score: ${trustScore.toFixed(1)}% | Status: ${trustScore >= 50 ? 'Moderate' : 'Needs warm up'}`, 'info');
+            
+            if (trustScore >= 90) {
+                addLog(`Account already in good standing. No warm up required.`, 'success');
+            } else {
+                addLog(`Recommend warm up to reach 90% target.`, 'info');
+            }
+        } else {
+            addLog(`Invalid pairing code. Please check and try again.`, 'warning');
+        }
+    });
+    
+    // Mode selector
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentMode = btn.getAttribute('data-mode');
+            addLog(`Warm up mode changed to: ${currentMode === 'gentle' ? 'Gentle' : (currentMode === 'aggressive' ? 'Aggressive' : 'Monster')}`, 'success');
+        });
+    });
+    
+    // Start warm up button
+    startWarmUpBtn.addEventListener('click', startWarmUp);
+    
+    // Initialize chart with Chart.js CDN
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+    script.onload = () => {
+        updateChart();
+    };
+    document.head.appendChild(script);
+    
+    addLog('WhatsApp Warm Up System v2.0 ready', 'success');
+    addLog('Enter phone number and generate pairing code to begin', 'info');
+</script>
+</body>
+</html>
